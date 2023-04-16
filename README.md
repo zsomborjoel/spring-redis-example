@@ -1,4 +1,4 @@
-# spring-redis-examplea 
+# spring-redis-example
 
 * redis
 * h2
