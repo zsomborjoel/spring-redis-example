@@ -23,13 +23,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin(origins = "http://localhost:8081")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/tutorials")
 @RequiredArgsConstructor
 public class TutorialController {
 
     private final TutorialService tutorialService;
 
-    @GetMapping("/tutorials")
+    @GetMapping
     public ResponseEntity<List<Tutorial>> getAllTutorials(@RequestParam(required = false) String title) {
         try {
             List<Tutorial> tutorials = new ArrayList<>();
@@ -49,7 +49,7 @@ public class TutorialController {
         }
     }
 
-    @GetMapping("/tutorials/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Tutorial> getTutorialById(@PathVariable("id") long id) {
         Optional<Tutorial> tutorialData = tutorialService.findById(id);
 
@@ -57,7 +57,7 @@ public class TutorialController {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping("/tutorials")
+    @PostMapping
     public ResponseEntity<Tutorial> createTutorial(@RequestBody Tutorial tutorial) {
         try {
             Tutorial tutorialResponse = tutorialService.save(new Tutorial(tutorial.getTitle(), tutorial.getDescription(), false));
@@ -67,7 +67,7 @@ public class TutorialController {
         }
     }
 
-    @PutMapping("/tutorials/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Tutorial> updateTutorial(@PathVariable("id") long id, @RequestBody Tutorial tutorial) {
         Optional<Tutorial> tutorialData = tutorialService.findById(id);
 
@@ -82,7 +82,7 @@ public class TutorialController {
         }
     }
 
-    @DeleteMapping("/tutorials/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteTutorial(@PathVariable("id") long id) {
         try {
             tutorialService.deleteById(id);
@@ -92,7 +92,7 @@ public class TutorialController {
         }
     }
 
-    @DeleteMapping("/tutorials")
+    @DeleteMapping
     public ResponseEntity<HttpStatus> deleteAllTutorials() {
         try {
             tutorialService.deleteAll();
@@ -103,7 +103,7 @@ public class TutorialController {
 
     }
 
-    @GetMapping("/tutorials/published")
+    @GetMapping("/published")
     public ResponseEntity<List<Tutorial>> findByPublished() {
         try {
             List<Tutorial> tutorials = tutorialService.findByPublished(true);
